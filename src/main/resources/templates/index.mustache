@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:=http://www.w3.org/1999/xhtml>
+<head>
+	<meta charset=utf-8"/>
+	<title>Combalph</title>
+</head>
+<body>
+<form action="/upload" method="post">
+	<div>
+		<input type="radio" name="complexityLevel" value="EXTREMELY_EASY">Extremely Easy
+		<input type="radio" name="complexityLevel" value="EASY">Easy
+		<input type="radio" name="complexityLevel" value="NORMAL">Normal
+		<input type="radio" name="complexityLevel" value="HARD">Hard
+		<input type="radio" name="complexityLevel" value="EXTREMELY_HARD">Extremely Hard
+	</div>
+	<div>
+		<textarea readonly name="text"></textarea>
+	</div>
+	<div>
+		<button type="file" name="file">Upload</button>
+	</div>
+	<div>
+		<button type="submit">Get text</button>
+	</div>
+</form>
+</body>
+</html>
