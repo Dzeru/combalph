@@ -1,16 +1,19 @@
 package com.dzeru.combalph.controllers;
 
+import com.dzeru.combalph.services.HiraganaCombineService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Controller
 public class TextController
@@ -50,6 +53,8 @@ public class TextController
 			file.transferTo(new File(fullFilename));
 
 			String text = new String(Files.readAllBytes(Paths.get(fullFilename)));
+
+			String s = HiraganaCombineService.combine(text, "en");
 
 			model.addAttribute("text",  text);
 		}
