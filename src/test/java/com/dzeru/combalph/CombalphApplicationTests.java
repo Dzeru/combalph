@@ -1,4 +1,4 @@
-package com.dzeru.combalph.combalph;
+package com.dzeru.combalph;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

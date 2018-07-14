@@ -5,23 +5,45 @@
 	<title>Combalph</title>
 </head>
 <body>
-<form action="/upload" method="post">
-	<div>
-		<input type="radio" name="complexityLevel" value="EXTREMELY_EASY">Extremely Easy
-		<input type="radio" name="complexityLevel" value="EASY">Easy
-		<input type="radio" name="complexityLevel" value="NORMAL">Normal
-		<input type="radio" name="complexityLevel" value="HARD">Hard
-		<input type="radio" name="complexityLevel" value="EXTREMELY_HARD">Extremely Hard
-	</div>
-	<div>
-		<textarea readonly name="text"></textarea>
-	</div>
-	<div>
-		<button type="file" name="file">Upload</button>
-	</div>
-	<div>
-		<button type="submit">Get text</button>
-	</div>
-</form>
+
+<div>
+	<a href="/getkey">Get key</a>
+	{{#key}}
+		Your new key: {{key}}
+		Remember it! Key helps you to save and find texts.
+	{{/key}}
+</div>
+
+<div>
+	<form action="/upload" method="post" enctype="multipart/form-data">
+        <div>
+            <input type="text" name="key">
+        </div>
+        <div align="center">
+			<input type="radio" name="language" value="en" checked>EN
+			<input type="radio" name="language" value="ru">RU
+        </div>
+        <div align="center">
+			<input type="radio" name="kana" value="katakana" checked>Katakana
+			<input type="radio" name="kana" value="hiragana">Hiragana
+        </div>
+        <div align="center">
+			<input type="radio" name="complexityLevel" value="EXTREMELY_EASY">Extremely Easy
+			<input type="radio" name="complexityLevel" value="EASY">Easy
+			<input type="radio" name="complexityLevel" value="NORMAL" checked>Normal
+			<input type="radio" name="complexityLevel" value="HARD">Hard
+			<input type="radio" name="complexityLevel" value="EXTREMELY_HARD">Extremely Hard
+        </div>
+        <div align="center">
+			<textarea readonly cols=60 rows=30 name="text">{{#text}}{{text}}{{/text}}</textarea>
+        </div>
+        <div align="center">
+			<input type="file" name="file">
+        </div>
+        <div align="center">
+			<input type="submit" value="Get combined text">
+        </div>
+	</form>
+</div>
 </body>
 </html>
