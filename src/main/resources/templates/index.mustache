@@ -6,41 +6,44 @@
 </head>
 <body>
 <div>
-	<h1>Combalph</h1>
+	<h1><a href="/">Combalph</a></h1>
 </div>
+<!-- Get key part -->
 <div>
 	<a href="/getkey">Get key</a>
 	{{#key}}
-		Your new key: {{key}}
-		Remember it! Key helps you to save and find texts.
+	<p>Your new key: {{key}}</p>
+	<p>Remember it!</p>
+	<p>Key helps you to save and find texts.</p>
 	{{/key}}
 </div>
-
+<!-- Find part -->
+<div>
+	<form action="/find" method="post">
+		<input type="text" name="key" placeholder="Key like co3m4">
+		<input type="submit" value="Find">
+	</form>
+	{{#foundTexts}}
+		<form action="/filltextarea" method="get">
+			<input type="submit" name="filename" value="{{.}}">
+		</form>
+	{{/foundTexts}}
+</div>
+<!-- Upload part -->
 <div>
 	<form action="/upload" method="post" enctype="multipart/form-data">
         <div align="center">
-            Key <input type="text" name="key">
+            <input type="text" name="key" placeholder="Key like co3m4">
+        </div>
+		{{> params}}
+		<div>
+			<p>{{#kanaCount}}Count of kana: {{kanaCount}}{{/kanaCount}}</p>
+			<p>{{#symbCount}}Count of symbols: {{symbCount}}{{/symbCount}}</p>
+		</div>
+        <div align="center"><textarea readonly cols=60 rows=30 name="text">{{#text}}{{text}}{{/text}}</textarea>
         </div>
         <div align="center">
-			<input type="radio" name="language" value="en" checked>EN
-			<input type="radio" name="language" value="ru">RU
-        </div>
-        <div align="center">
-			<input type="radio" name="kana" value="hiragana" checked>Hiragana
-			<input type="radio" name="kana" value="katakana">Katakana
-        </div>
-        <div align="center">
-			<input type="radio" name="complexityLevel" value="EXTREMELY_EASY">Extremely Easy
-			<input type="radio" name="complexityLevel" value="EASY">Easy
-			<input type="radio" name="complexityLevel" value="NORMAL" checked>Normal
-			<input type="radio" name="complexityLevel" value="HARD">Hard
-			<input type="radio" name="complexityLevel" value="EXTREMELY_HARD">Extremely Hard
-        </div>
-        <div align="center">
-			<textarea readonly cols=60 rows=30 name="text">{{#text}}{{text}}{{/text}}</textarea>
-        </div>
-        <div align="center">
-			<input type="file" name="file">
+			<input type="file" name="file" accept="text/plain, application/msword">
         </div>
         <div align="center">
 			<input type="submit" value="Get combined text">
