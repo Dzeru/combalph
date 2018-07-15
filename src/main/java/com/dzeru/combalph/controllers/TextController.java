@@ -1,6 +1,7 @@
 package com.dzeru.combalph.controllers;
 
-import com.dzeru.combalph.services.HiraganaCombineService;
+import com.dzeru.combalph.services.CombineService;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,7 +55,7 @@ public class TextController
 
 			String text = new String(Files.readAllBytes(Paths.get(fullFilename)));
 
-			String s = HiraganaCombineService.combine(text, "en");
+			text = CombineService.combine(text, language, kana);
 
 			model.addAttribute("text",  text);
 		}

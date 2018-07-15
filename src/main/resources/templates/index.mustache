@@ -5,7 +5,9 @@
 	<title>Combalph</title>
 </head>
 <body>
-
+<div>
+	<h1>Combalph</h1>
+</div>
 <div>
 	<a href="/getkey">Get key</a>
 	{{#key}}
@@ -16,16 +18,16 @@
 
 <div>
 	<form action="/upload" method="post" enctype="multipart/form-data">
-        <div>
-            <input type="text" name="key">
+        <div align="center">
+            Key <input type="text" name="key">
         </div>
         <div align="center">
 			<input type="radio" name="language" value="en" checked>EN
 			<input type="radio" name="language" value="ru">RU
         </div>
         <div align="center">
-			<input type="radio" name="kana" value="katakana" checked>Katakana
-			<input type="radio" name="kana" value="hiragana">Hiragana
+			<input type="radio" name="kana" value="hiragana" checked>Hiragana
+			<input type="radio" name="kana" value="katakana">Katakana
         </div>
         <div align="center">
 			<input type="radio" name="complexityLevel" value="EXTREMELY_EASY">Extremely Easy
