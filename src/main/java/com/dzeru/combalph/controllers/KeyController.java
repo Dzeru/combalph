@@ -22,7 +22,7 @@ public class KeyController
 		key = key.substring(0, 5);
 		model.addAttribute("key", key);
 
-		return "index";
+		return "key";
 	}
 
 	@PostMapping("/find")
