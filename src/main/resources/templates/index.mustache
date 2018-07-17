@@ -10,8 +10,8 @@
 	<h1><a class="logo" href="/">Combalph</a></h1>
 </div>
 <div class="leftColumn">
-{{> finding}}
-{{> getkey}}
+	{{> getkey}}
+	{{> finding}}
 </div>
 <div class="text">
 	<form action="/upload" method="post" enctype="multipart/form-data">
@@ -25,7 +25,6 @@
 		<div align="center">
 			<input class="btn" type="submit" value="Get combined text">
 		</div>
-		{{> count}}
         <div align="center"><textarea readonly cols=60 rows=30 name="text">{{#text}}{{text}}{{/text}}</textarea>
         </div>
 	</form>

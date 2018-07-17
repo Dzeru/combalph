@@ -55,12 +55,8 @@ public class TextController
 
 			String text = new String(Files.readAllBytes(Paths.get(fullFilename)));
 			text = CombineService.combine(text, language, kana, complexityLevel);
-			int kanaCount = Integer.parseInt(text.substring(text.lastIndexOf(" ") + 1));
-			text = text.substring(0, text.lastIndexOf(" "));
 
 			model.addAttribute("text",  text);
-			model.addAttribute("kanaCount", kanaCount);
-			model.addAttribute("symbCount", text.length());
 		}
 		return "index";
 	}
@@ -84,12 +80,8 @@ public class TextController
 	{
 
 		textar = CombineService.combine(textar, language, kana, complexityLevel);
-		int kanaCount = Integer.parseInt(textar.substring(textar.lastIndexOf(" ") + 1));
-		textar = textar.substring(0, textar.lastIndexOf(" "));
 
 		model.addAttribute("text",  textar);
-		model.addAttribute("kanaCount", kanaCount);
-		model.addAttribute("symbCount", textar.length());
 
 		return "filltextarea";
 	}
