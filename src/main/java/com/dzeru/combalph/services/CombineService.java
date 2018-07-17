@@ -19,9 +19,6 @@ public class CombineService
 	//Directory, where matching files are situated
 	private static String kanaPath = Thread.currentThread().getContextClassLoader().getResource("kana").getPath();
 
-	private static boolean hasSpace = false;
-	private static boolean hasEndline = false;
-
 	public static String combine(String text, String language, String kana, String complexityLevel) throws IOException
 	{
 		/*
@@ -42,214 +39,194 @@ public class CombineService
 		{
 			while (i < text.length())
 			{
-				hasSpace = false;
-				hasEndline = false;
-
-				//complvl variable special for loop
-				int v = complvl;
-
-				if(text.charAt(i) == ' ')
+				if (text.charAt(i) == ' ')
 				{
+					sb.append(' ');
 					i++;
-					hasSpace = true;
 				}
-				if(text.charAt(i) == '\n')
+				if (text.charAt(i) == '\n')
 				{
+					sb.append('\n');
 					i++;
-					hasEndline = true;
 				}
 
 				String c0 = Character.toString(text.charAt(i));
 				String c1 = ".";
 
-				if(i + 1 < text.length())
+				if (i + 1 < text.length())
 				{
 					c1 = Character.toString(text.charAt(i + 1));
 				}
-
-				if(v == complvl)
+				//System.out.println(i + " :" + c0 + ":" + c1 + ":");
+				if (kanaProps.getProperty(c0 + c1) != null)
 				{
-					if (kanaProps.getProperty(c0 + c1) != null)
-					{
-						hasSpaceOrEndline(sb, hasSpace, hasEndline);
-						sb.append(kanaProps.getProperty(c0 + c1));
-					}
-					else if(kanaProps.getProperty(c0) != null &&
-							kanaProps.getProperty(c1) != null)
-					{
-						sb.append(kanaProps.getProperty(c0)).append(kanaProps.getProperty(c1));
-					}
-					else if (kanaProps.getProperty(c0) != null)
-					{
-						hasSpaceOrEndline(sb, hasSpace, hasEndline);
-						sb.append(kanaProps.getProperty(c0)).append(c1);
-					} else if (kanaProps.getProperty(c1) != null)
-					{
-						hasSpaceOrEndline(sb, hasSpace, hasEndline);
-						sb.append(c0).append(kanaProps.getProperty(c1));
-					} else
-					{
-						hasSpaceOrEndline(sb, hasSpace, hasEndline);
-						sb.append(c0).append(c1);
-						v--;
-					}
-
+					sb.append(kanaProps.getProperty(c0 + c1));
 					i += 2;
-
-					if(v == 0)
-						v = complvl;
-					else
-						v--;
+					for(int k = i; k < i + complvl && k < text.length(); k++)
+					{
+						sb.append(text.charAt(k));
+					}
+					i += complvl;
 				}
 				else
 				{
-					hasSpaceOrEndline(sb, hasSpace, hasEndline);
-					sb.append(c0).append(c1);
-
-					i += 2;
-
-					if(v == 0)
-						v = complvl;
-					else
-						v--;
+					if (kanaProps.getProperty(c0) != null)
+					{
+						sb.append(kanaProps.getProperty(c0)).append(c1);
+						i += 2;
+						for(int k = i; k < i + complvl && k < text.length(); k++)
+						{
+							sb.append(text.charAt(k));
+						}
+						i += complvl;
+					}
+					if (kanaProps.getProperty(c1) != null)
+					{
+						sb.append(c0).append(kanaProps.getProperty(c1));
+						i += 2;
+						for(int k = i; k < i + complvl && k < text.length(); k++)
+						{
+							sb.append(text.charAt(k));
+						}
+						i += complvl;
+					}
+					if (kanaProps.getProperty(c0) == null && kanaProps.getProperty(c1) == null)
+					{
+						sb.append(c0);
+						i += 1;
+					}
 				}
 			}
 		}
 		if(language.equals("ru"))
 		{
-			System.out.println("Begin");
-			String transPath = kanaPath + "/trans.properties";
-			Properties transProps = new Properties();
-			transProps.load(new FileInputStream(transPath));
-
 			while (i < text.length())
 			{
-				hasSpace = false;
-				hasEndline = false;
-
-				//complvl variable special for loop
-				int v = complvl;
-
-				if(text.charAt(i) == ' ')
+				if (text.charAt(i) == ' ')
 				{
+					sb.append(' ');
 					i++;
-					hasSpace = true;
 				}
-				if(text.charAt(i) == '\n')
+				if (text.charAt(i) == '\n')
 				{
+					sb.append('\n');
 					i++;
-					hasEndline = true;
 				}
 
 				String c0 = Character.toString(text.charAt(i));
 				String c1 = ".";
 
-
-				if(i + 1 < text.length())
+				if (i + 1 < text.length())
 				{
 					c1 = Character.toString(text.charAt(i + 1));
 				}
 
-				/*
-				If en-rus property load successfully, @Param rate changes
-				 */
-				int rate = 0;
-				/*
-				@Param symb represents english side of en-rus translation
-				 */
-				String symb = "";
+				String e0 = translate(c0);
+				String e1 = translate(c1);
 
-				if(transProps.getProperty(c0 + c1) != null)
+				if (kanaProps.getProperty(e0 + e1) != null)
 				{
-					symb = transProps.getProperty(c0 + c1);
-					rate = 3;
-				}
-				else if(transProps.getProperty(c0) != null)
-				{
-					symb = transProps.getProperty(c0);
-					rate = 1;
-
-				}
-				else if(transProps.getProperty(c1) != null)
-				{
-					symb = transProps.getProperty(c1);
-					rate = 2;
-				}
-				System.out.println(symb + " " + rate);
-				if(v == complvl)
-				{
-					if(rate == 0)
-					{
-						hasSpaceOrEndline(sb, hasSpace, hasEndline);
-						sb.append(c0).append(c1);
-					}
-					if(rate == 1)
-					{
-						hasSpaceOrEndline(sb, hasSpace, hasEndline);
-						if(kanaProps.getProperty(symb) != null)
-						{
-							sb.append(kanaProps.getProperty(symb)).append(c1);
-						}
-						else
-						{
-							sb.append(c0).append(c1);
-						}
-					}
-					if(rate == 2)
-					{
-						hasSpaceOrEndline(sb, hasSpace, hasEndline);
-						if(kanaProps.getProperty(symb) != null)
-						{
-							sb.append(c0).append(kanaProps.getProperty(symb));
-						}
-						else
-						{
-							sb.append(c0).append(c1);
-						}
-					}
-					if(rate == 3)
-					{
-						if(kanaProps.getProperty(symb) != null)
-						{
-							sb.append(kanaProps.getProperty(symb));
-						}
-						else
-						{
-							sb.append(c0).append(c1);
-						}
-					}
-
+					sb.append(kanaProps.getProperty(e0 + e1));
 					i += 2;
-
-					if(v == 0)
-						v = complvl;
-					else
-						v--;
+					for(int k = i; k < i + complvl && k < text.length(); k++)
+					{
+						sb.append(text.charAt(k));
+					}
+					i += complvl;
 				}
 				else
 				{
-					hasSpaceOrEndline(sb, hasSpace, hasEndline);
-					sb.append(c0).append(c1);
-
-					i += 2;
-
-					if(v == 0)
-						v = complvl;
-					else
-						v--;
+					if (kanaProps.getProperty(e0) != null)
+					{
+						sb.append(kanaProps.getProperty(e0)).append(c1);
+						i += 2;
+						for(int k = i; k < i + complvl && k < text.length(); k++)
+						{
+							sb.append(text.charAt(k));
+						}
+						i += complvl;
+					}
+					if (kanaProps.getProperty(e1) != null)
+					{
+						sb.append(c0).append(kanaProps.getProperty(e1));
+						i += 2;
+						for(int k = i; k < i + complvl && k < text.length(); k++)
+						{
+							sb.append(text.charAt(k));
+						}
+						i += complvl;
+					}
+					if (kanaProps.getProperty(e0) == null && kanaProps.getProperty(e1) == null)
+					{
+						sb.append(c0);
+						i += 1;
+					}
 				}
 			}
 		}
 
-
 		return sb.toString();
 	}
 
-	private static void hasSpaceOrEndline(StringBuffer sb, boolean hasSpace, boolean hasEndline)
+	private static String translate(String s)
 	{
-		if(hasSpace)
-			sb.append(' ');
-		if(hasEndline)
-			sb.append('\n');
+		System.out.println("start");
+		switch(s)
+		{
+			case "а": s = "a"; return s;
+			case "о": s = "o"; return s;
+			case "и": s = "i"; return s;
+			case "у": s = "u"; return s;
+			case "е": s = "e"; return s;
+			case "э": s = "e"; return s;
+
+			case "я": s = "ya"; return s;
+			case "ё": s = "yo"; return s;
+			case "ю": s = "yu"; return s;
+
+			case "й": s = "y"; return s;
+
+			case "к": s = "k"; return s;
+			case "г": s = "g"; return s;
+			case "п": s = "p"; return s;
+			case "б": s = "b"; return s;
+			case "х": s = "h"; return s;
+			case "м": s = "m"; return s;
+			case "н": s = "n"; return s;
+			case "р": s = "r"; return s;
+			case "д": s = "d"; return s;
+			case "т": s = "t"; return s;
+			case "с": s = "s"; return s;
+			case "з": s = "z"; return s;
+			case "в": s = "w"; return s;
+
+			case "А": s = "A"; return s;
+			case "О": s = "O"; return s;
+			case "И": s = "I"; return s;
+			case "У": s = "U"; return s;
+			case "Е": s = "E"; return s;
+			case "Э": s = "E"; return s;
+
+			case "Я": s = "Ya"; return s;
+			case "Ё": s = "Yo"; return s;
+			case "Ю": s = "Yu"; return s;
+
+			case "Й": s = "Y"; return s;
+
+			case "К": s = "K"; return s;
+			case "Г": s = "G"; return s;
+			case "П": s = "P"; return s;
+			case "Б": s = "B"; return s;
+			case "Х": s = "H"; return s;
+			case "М": s = "M"; return s;
+			case "Н": s = "N"; return s;
+			case "Р": s = "R"; return s;
+			case "Д": s = "D"; return s;
+			case "Т": s = "T"; return s;
+			case "С": s = "S"; return s;
+			case "З": s = "Z"; return s;
+			case "В": s = "W"; return s;
+		}
+		return "error";
 	}
 }
