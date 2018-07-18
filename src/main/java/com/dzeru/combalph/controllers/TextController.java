@@ -22,6 +22,8 @@ public class TextController
 	@Value("${upload.path}")
 	private String uploadPath;
 
+	private String noKey = "no-key";
+
 	@GetMapping("/")
 	public String index()
 	{
@@ -37,7 +39,7 @@ public class TextController
 						Model model) throws IOException
 	{
 		if(key == null || key.isEmpty())
-			key = UUID.randomUUID().toString();
+			key = noKey;
 
 		if(file != null)
 		{
@@ -51,12 +53,21 @@ public class TextController
 			String filename = key + "-" + file.getOriginalFilename();
 			String fullFilename = uploadPath + "/" + filename;
 
-			file.transferTo(new File(fullFilename));
+			File textFile = new File(fullFilename);
+
+			file.transferTo(textFile);
 
 			String text = new String(Files.readAllBytes(Paths.get(fullFilename)));
 			text = CombineService.combine(text, language, kana, complexityLevel);
-
 			model.addAttribute("text",  text);
+
+			/*
+			If file has no its own key, it should not take place on file storage
+			 */
+			if(key.equals(noKey) && textFile.exists())
+			{
+				textFile.delete();
+			}
 		}
 		return "index";
 	}

@@ -9,10 +9,10 @@ import java.io.IOException;
 import java.util.Properties;
 
 /*
-Service for combining two alphabets.
-Return text with kana and count of kana in the end of text.
-TextController cuts the count.
- */
+Service for combining two alphabets: en or ru to hiragana or katakana.
+Returns text with kana.
+*/
+
 @Service
 public class CombineService
 {
@@ -22,7 +22,7 @@ public class CombineService
 	public static String combine(String text, String language, String kana, String complexityLevel) throws IOException
 	{
 		/*
-		Enum with int param. @See objects.ComplexityLevel class for more info.
+		Enum with int param. @See com.dzeru.combalph.objects.ComplexityLevel class for more info.
 		 */
 		ComplexityLevel complexitylvl = ComplexityLevel.valueOf(complexityLevel);
 		int complvl = complexitylvl.getComplvl();
@@ -35,98 +35,56 @@ public class CombineService
 
 		int i = 0;
 
-		if(language.equals("en"))
+		while (i < text.length())
 		{
-			while (i < text.length())
+			if (text.charAt(i) == ' ')
 			{
-				if (text.charAt(i) == ' ')
-				{
-					sb.append(' ');
-					i++;
-				}
-				if (text.charAt(i) == '\n')
-				{
-					sb.append('\n');
-					i++;
-				}
-
-				String c0 = Character.toString(text.charAt(i));
-				String c1 = ".";
-
-				if (i + 1 < text.length())
-				{
-					c1 = Character.toString(text.charAt(i + 1));
-				}
-				//System.out.println(i + " :" + c0 + ":" + c1 + ":");
-				if (kanaProps.getProperty(c0 + c1) != null)
-				{
-					sb.append(kanaProps.getProperty(c0 + c1));
-					i += 2;
-					for(int k = i; k < i + complvl && k < text.length(); k++)
-					{
-						sb.append(text.charAt(k));
-					}
-					i += complvl;
-				}
-				else
-				{
-					if (kanaProps.getProperty(c0) != null)
-					{
-						sb.append(kanaProps.getProperty(c0)).append(c1);
-						i += 2;
-						for(int k = i; k < i + complvl && k < text.length(); k++)
-						{
-							sb.append(text.charAt(k));
-						}
-						i += complvl;
-					}
-					if (kanaProps.getProperty(c1) != null)
-					{
-						sb.append(c0).append(kanaProps.getProperty(c1));
-						i += 2;
-						for(int k = i; k < i + complvl && k < text.length(); k++)
-						{
-							sb.append(text.charAt(k));
-						}
-						i += complvl;
-					}
-					if (kanaProps.getProperty(c0) == null && kanaProps.getProperty(c1) == null)
-					{
-						sb.append(c0);
-						i += 1;
-					}
-				}
+				sb.append(' ');
+				i++;
 			}
-		}
-		if(language.equals("ru"))
-		{
-			while (i < text.length())
+			if (text.charAt(i) == '\n')
 			{
-				if (text.charAt(i) == ' ')
+				sb.append('\n');
+				i++;
+			}
+
+			String c0 = Character.toString(text.charAt(i));
+			String c1 = ".";
+
+			if (i + 1 < text.length())
+			{
+				c1 = Character.toString(text.charAt(i + 1));
+			}
+
+			/*
+			Are used for ru-en translation, if @Param language == "ru"
+			If @Param language == "en", e0 and e1 equal c0 and c1
+			Are used in getProperty()
+			 */
+			String e0 = c0;
+			String e1 = c1;
+
+			if(language.equals("ru"))
+			{
+				e0 = translate(c0);
+				e1 = translate(c1);
+			}
+
+			if (kanaProps.getProperty(e0 + e1) != null)
+			{
+				sb.append(kanaProps.getProperty(e0 + e1));
+				i += 2;
+				for(int k = i; k < i + complvl && k < text.length(); k++)
 				{
-					sb.append(' ');
-					i++;
+					sb.append(text.charAt(k));
 				}
-				if (text.charAt(i) == '\n')
+				i += complvl;
+			}
+			else
+			{
+				if (kanaProps.getProperty(e0) != null)
 				{
-					sb.append('\n');
-					i++;
-				}
-
-				String c0 = Character.toString(text.charAt(i));
-				String c1 = ".";
-
-				if (i + 1 < text.length())
-				{
-					c1 = Character.toString(text.charAt(i + 1));
-				}
-
-				String e0 = translate(c0);
-				String e1 = translate(c1);
-
-				if (kanaProps.getProperty(e0 + e1) != null)
-				{
-					sb.append(kanaProps.getProperty(e0 + e1));
+					sb.append(kanaProps.getProperty(e0)).append(c1);
 					i += 2;
 					for(int k = i; k < i + complvl && k < text.length(); k++)
 					{
@@ -134,33 +92,20 @@ public class CombineService
 					}
 					i += complvl;
 				}
-				else
+				if (kanaProps.getProperty(e1) != null)
 				{
-					if (kanaProps.getProperty(e0) != null)
+					sb.append(c0).append(kanaProps.getProperty(e1));
+					i += 2;
+					for(int k = i; k < i + complvl && k < text.length(); k++)
 					{
-						sb.append(kanaProps.getProperty(e0)).append(c1);
-						i += 2;
-						for(int k = i; k < i + complvl && k < text.length(); k++)
-						{
-							sb.append(text.charAt(k));
-						}
-						i += complvl;
+						sb.append(text.charAt(k));
 					}
-					if (kanaProps.getProperty(e1) != null)
-					{
-						sb.append(c0).append(kanaProps.getProperty(e1));
-						i += 2;
-						for(int k = i; k < i + complvl && k < text.length(); k++)
-						{
-							sb.append(text.charAt(k));
-						}
-						i += complvl;
-					}
-					if (kanaProps.getProperty(e0) == null && kanaProps.getProperty(e1) == null)
-					{
-						sb.append(c0);
-						i += 1;
-					}
+					i += complvl;
+				}
+				if (kanaProps.getProperty(e0) == null && kanaProps.getProperty(e1) == null)
+				{
+					sb.append(c0);
+					i += 1;
 				}
 			}
 		}
@@ -168,9 +113,11 @@ public class CombineService
 		return sb.toString();
 	}
 
+	/*
+	Casts rus symbols to eng
+	 */
 	private static String translate(String s)
 	{
-		System.out.println("start");
 		switch(s)
 		{
 			case "а": s = "a"; return s;

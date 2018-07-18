@@ -6,22 +6,21 @@
     <link rel="stylesheet" type="text/css" href="/index.css">
 </head>
 <body>
-<div>
-    <h1><a class="logo" href="/">Combalph</a></h1>
-</div>
+{{> logo}}
 <div class="leftColumn">
-    {{> finding}}
     {{> getkey}}
+    {{> finding}}
 </div>
 <div class="text">
     <form action="/fill" method="post">
         {{> params}}
-        {{> count}}
+        <div align="center">
+            <input class="btn" type="submit" value="Get combined text">
+        </div>
         <div align="center"><textarea readonly cols=60 rows=30 name="text">{{#text}}{{text}}{{/text}}</textarea>
         </div>
         <div align="center">
             <input type="hidden" name="textar" value="{{#text}}{{text}}{{/text}}">
-            <input type="submit" value="Get combined text">
         </div>
     </form>
 </div>

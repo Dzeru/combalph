@@ -81,12 +81,13 @@ table {
 
 .btn
 {
-	border: 3px solid #7a7a7a;
+	border: 3px solid #545454;
 	color: #99cc66;
-	background: #7a7a7a;
+	background: #545454;
 	font-family: "Arial";
 	font-size: 16px;
 	margin: 3px;
+	border-radius: 5px;
 }
 
 .btnFindList
@@ -99,7 +100,7 @@ table {
 
 .logo
 {
-	color: #1f1f1f;
+	color: #545454;
 	text-decoration: none;
 	font-size: 40px;
 	font-family: "Arial Black";
