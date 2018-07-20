@@ -2,6 +2,7 @@ package com.dzeru.combalph.controllers;
 
 import com.dzeru.combalph.services.CombineService;
 
+import com.dzeru.combalph.services.ParseDocxService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +39,7 @@ public class TextController
 	                    @RequestParam("file") MultipartFile file,
 						Model model) throws IOException
 	{
-		if(key == null || key.isEmpty())
+		if(key == null || key.isEmpty() || key.length() != 5)
 			key = noKey;
 
 		if(file != null)
@@ -57,7 +58,16 @@ public class TextController
 
 			file.transferTo(textFile);
 
-			String text = new String(Files.readAllBytes(Paths.get(fullFilename)));
+			String text = "";
+
+			if(filename.substring(filename.length() - 4).equals("docx"))
+			{
+				text = ParseDocxService.parseDocx(fullFilename);
+			}
+			else if(filename.substring(filename.length() - 3).equals("txt"))
+			{
+				text = new String(Files.readAllBytes(Paths.get(fullFilename)));
+			}
 			text = CombineService.combine(text, language, kana, complexityLevel);
 			model.addAttribute("text",  text);
 
