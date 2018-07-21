@@ -42,7 +42,7 @@ public class ParseDocxService
 		catch(Docx4JException | JAXBException e)
 		{
 			e.printStackTrace();
+			return "-1";
 		}
-		return "-1";
 	}
 }

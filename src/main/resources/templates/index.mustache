@@ -17,13 +17,14 @@
             <input type="text" name="key" placeholder="Key like co3m4">
         </div>
 		{{> params}}
-		<div align="center">
-			<input class="btn" type="file" name="file">
+		<div align="center" class="btnUpload">
+			<button type="button">Upload</button>
+			<input type="file" name="file">
 		</div>
 		<div align="center">
 			<input class="btn" type="submit" value="Get combined text">
 		</div>
-        <div align="center"><textarea readonly cols=60 rows=30 name="text">{{#text}}{{text}}{{/text}}</textarea>
+        <div align="center"><textarea cols=60 rows=30 name="textar">{{#text}}{{text}}{{/text}}</textarea>
         </div>
 	</form>
 </div>
