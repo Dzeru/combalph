@@ -6,27 +6,31 @@
 	<link rel="stylesheet" type="text/css" href="/index.css">
 </head>
 <body>
-{{> logo}}
-<div class="leftColumn">
+<header>
+{{> logo}} {{> lang}}
+</header>
+<aside class="leftColumn">
 	{{> getkey}}
 	{{> finding}}
-</div>
-<div class="text">
+</aside>
+<section class="text">
 	<form action="/upload" method="post" enctype="multipart/form-data">
-        <div align="center">
-            <input type="text" name="key" placeholder="Key like co3m4">
+        <div class="simplediv" align="center">
+            <input type="text" name="key" placeholder="{{#i18n}}placeholder.key{{/i18n}}">
         </div>
 		{{> params}}
-		<div align="center" class="btnUpload">
-			<button type="button">Upload</button>
+		<div class="btnUpload simplediv" align="center">
+			<button type="button">{{#i18n}}button.upload{{/i18n}}</button>
 			<input type="file" name="file">
 		</div>
-		<div align="center">
-			<input class="btn" type="submit" value="Get combined text">
+		<div class="simplediv" align="center">
+			<input class="btn" type="submit" value="{{#i18n}}button.combine{{/i18n}}">
 		</div>
-        <div align="center"><textarea cols=60 rows=30 name="textar">{{#text}}{{text}}{{/text}}</textarea>
+        <div class="simplediv" align="center">
+			<textarea cols=60 rows=30 placeholder="{{#i18n}}placeholder.text{{/i18n}}">{{#text}}{{text}}{{/text}}</textarea>
         </div>
+		<input type="hidden" name="textar" value="{{#text}}{{text}}{{/text}}">
 	</form>
-</div>
+</section>
 </body>
 </html>

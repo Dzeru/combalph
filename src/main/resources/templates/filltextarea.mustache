@@ -6,23 +6,26 @@
     <link rel="stylesheet" type="text/css" href="/index.css">
 </head>
 <body>
-{{> logo}}
-<div class="leftColumn">
+<header>
+    {{> logo}}
+</header>
+<aside class="leftColumn">
     {{> getkey}}
     {{> finding}}
-</div>
-<div class="text">
+</aside>
+<section class="text">
     <form action="/fill" method="post">
         {{> params}}
-        <div align="center">
-            <input class="btn" type="submit" value="Get combined text">
+        <div class="simplediv" align="center">
+            {{#filename}}{{filename}}{{/filename}}
         </div>
-        <div align="center"><textarea readonly cols=60 rows=30 name="text">{{#text}}{{text}}{{/text}}</textarea>
+        <div class="simplediv" align="center">
+            <input class="btn" type="submit" value="{{#i18n}}button.combine{{/i18n}}">
         </div>
-        <div align="center">
-            <input type="hidden" name="textar" value="{{#text}}{{text}}{{/text}}">
+        <div class="simplediv" align="center"><textarea readonly cols=60 rows=30 placeholder="{{#i18n}}placeholder.text{{/i18n}}" name="text">{{#text}}{{text}}{{/text}}</textarea>
         </div>
+        <input type="hidden" name="filename" value="{{#filename}}{{filename}}{{/filename}}">
     </form>
-</div>
+</section>
 </body>
 </html>

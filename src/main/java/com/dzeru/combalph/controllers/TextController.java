@@ -36,7 +36,8 @@ public class TextController
 						@RequestParam String complexityLevel,
 						@RequestParam String language,
 						@RequestParam String kana,
-	                    @RequestParam("file") MultipartFile file,
+	                    @RequestParam(value = "file", required = false) MultipartFile file,
+						@RequestParam(value = "textar", required = false) String textar,
 						Model model) throws IOException
 	{
 		if(key == null || key.isEmpty() || key.length() != 5)
@@ -79,30 +80,44 @@ public class TextController
 				textFile.delete();
 			}
 		}
+		else
+		{
+			textar = CombineService.combine(textar, language, kana, complexityLevel);
+			model.addAttribute("text",  textar);
+		}
 		return "index";
 	}
 
-	@GetMapping("/filltextarea")
-	public String fillTextArea(@RequestParam String filename, Model model) throws IOException
+	@GetMapping("/fill")
+	public String fillTextArea(@RequestParam String filename, Model model)
 	{
-		String fullFilename = uploadPath + "/" + filename;
-		String text = new String(Files.readAllBytes(Paths.get(fullFilename)));
+		model.addAttribute("filename", filename);
 
-		model.addAttribute("text", text);
 		return "filltextarea";
 	}
 
 	@PostMapping("/fill")
-	public String fill(@RequestParam String textar,
+	public String fill(@RequestParam String filename,
 						@RequestParam String complexityLevel,
 	                    @RequestParam String language,
 	                    @RequestParam String kana,
 	                    Model model) throws IOException
 	{
+		String fullFilename = uploadPath + "/" + filename;
 
-		textar = CombineService.combine(textar, language, kana, complexityLevel);
+		String text = "";
 
-		model.addAttribute("text",  textar);
+		if(filename.substring(filename.length() - 4).equals("docx"))
+		{
+			text = ParseDocxService.parseDocx(fullFilename);
+		}
+		else if(filename.substring(filename.length() - 3).equals("txt"))
+		{
+			text = new String(Files.readAllBytes(Paths.get(fullFilename)));
+		}
+		text = CombineService.combine(text, language, kana, complexityLevel);
+		model.addAttribute("text",  text);
+		model.addAttribute("filename", filename);
 
 		return "filltextarea";
 	}

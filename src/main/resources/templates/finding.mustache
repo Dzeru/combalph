@@ -1,11 +1,12 @@
-<div>
+<div class="simplediv">
     <form action="/find" method="post">
-        <input type="text" name="key" placeholder="Key like co3m4">
-        <input class="btn" type="submit" value="Find">
+        <input type="text" name="key" placeholder="{{#i18n}}placeholder.key{{/i18n}}">
+        <input class="btn" type="submit" value="{{#i18n}}button.find{{/i18n}}">
     </form>
     {{#foundTexts}}
-    <form action="/filltextarea" method="get">
+    <form action="/fill" method="get">
         <input class="btnFindList" type="submit" name="filename" value="{{.}}">
     </form>
     {{/foundTexts}}
+    <span class="btnFindList">{{#noTextsFound}}{{.}}{{/noTextsFound}}</span>
 </div>
