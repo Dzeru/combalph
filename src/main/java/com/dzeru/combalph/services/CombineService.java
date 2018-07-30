@@ -17,9 +17,9 @@ Returns text with kana.
 public class CombineService
 {
 	//Directory, where matching files are situated
-	private static String kanaPath = Thread.currentThread().getContextClassLoader().getResource("kana").getPath();
+	private String kanaPath = Thread.currentThread().getContextClassLoader().getResource("kana").getPath();
 
-	public static String combine(String text, String language, String kana, String complexityLevel) throws IOException
+	public String combine(String text, String language, String kana, String complexityLevel) throws IOException
 	{
 		/*
 		Enum with int param. @See com.dzeru.combalph.objects.ComplexityLevel class for more info.

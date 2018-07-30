@@ -4,6 +4,7 @@
 	<meta charset=utf-8"/>
 	<title>Combalph</title>
 	<link rel="stylesheet" type="text/css" href="/index.css">
+    <link rel="shortcut icon" type="image/png" href="/favicon.png">
 </head>
 <body>
 <header>
@@ -16,7 +17,7 @@
 <section class="text">
 	<form action="/upload" method="post" enctype="multipart/form-data">
         <div class="simplediv" align="center">
-            <input type="text" name="key" placeholder="{{#i18n}}placeholder.key{{/i18n}}">
+            <input type="text" name="key" rows=30 placeholder="{{#i18n}}placeholder.keyForSave{{/i18n}}">
         </div>
 		{{> params}}
 		<div class="btnUpload simplediv" align="center">

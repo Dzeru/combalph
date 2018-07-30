@@ -102,6 +102,9 @@ header
 	border-radius: 5px;
 }
 
+/*
+Is used for search result
+ */
 .btnFindList
 {
 	border: none;
@@ -153,6 +156,9 @@ header
 	font-family: "Arial Black";
 }
 
+/*
+Links, which change the language
+ */
 .lang
 {
 	color: #545454;
@@ -161,6 +167,9 @@ header
 	font-family: "Arial";
 }
 
+/*
+Style for page with new key
+ */
 .key
 {
 	width: 50%;
@@ -168,9 +177,90 @@ header
 	font-family: "Arial";
 }
 
+/*
+Link for /getkey
+ */
 .getkey
 {
 	color: #99cc66;
 	text-decoration: none;
 	font-size: 18px;
+}
+
+.faq
+{
+	float: left;
+	margin-left: 20px;
+	line-height: 150%;
+}
+
+h2
+{
+	color: #545454;
+	font-size: 24px;
+	margin: 15px 0px 10px 10px;
+}
+
+p
+{
+	padding-left: 40px;
+	line-height: 150%;
+}
+
+ol, ul
+{
+	padding-left: 80px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+ul
+{
+	list-style-type: circle;
+}
+
+ol
+{
+	list-style-type: decimal;
+}
+
+/*
+.yes and .no is used for table in FAQ
+ */
+.yes
+{
+	color: #99cc66;
+}
+
+.no
+{
+	color: #cd5c5c;
+}
+
+table
+{
+	margin-top: 20px;
+	margin-bottom: 30px;
+	width: 100%;
+	font-size: 20px;
+}
+
+th
+{
+	border-top: 3px solid grey;
+	border-bottom: 3px solid grey;
+}
+
+td
+{
+	text-align: center;
+	border-bottom: 1px solid grey;
+}
+
+.iconCredits
+{
+	width: 100%;
+	margin: 40px 0px 20px 15px;
+	font-family: "Arial";
+	font-size: 10px;
 }

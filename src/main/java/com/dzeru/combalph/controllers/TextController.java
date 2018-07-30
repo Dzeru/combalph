@@ -1,8 +1,9 @@
 package com.dzeru.combalph.controllers;
 
 import com.dzeru.combalph.services.CombineService;
-
 import com.dzeru.combalph.services.ParseDocxService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,11 +16,16 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.UUID;
 
 @Controller
 public class TextController
 {
+	@Autowired
+	private CombineService combineService;
+
+	@Autowired
+	private ParseDocxService parseDocxService;
+
 	@Value("${upload.path}")
 	private String uploadPath;
 
@@ -63,13 +69,13 @@ public class TextController
 
 			if(filename.substring(filename.length() - 4).equals("docx"))
 			{
-				text = ParseDocxService.parseDocx(fullFilename);
+				text = parseDocxService.parseDocx(fullFilename);
 			}
 			else if(filename.substring(filename.length() - 3).equals("txt"))
 			{
 				text = new String(Files.readAllBytes(Paths.get(fullFilename)));
 			}
-			text = CombineService.combine(text, language, kana, complexityLevel);
+			text = combineService.combine(text, language, kana, complexityLevel);
 			model.addAttribute("text",  text);
 
 			/*
@@ -82,7 +88,7 @@ public class TextController
 		}
 		else
 		{
-			textar = CombineService.combine(textar, language, kana, complexityLevel);
+			textar = combineService.combine(textar, language, kana, complexityLevel);
 			model.addAttribute("text",  textar);
 		}
 		return "index";
@@ -109,13 +115,13 @@ public class TextController
 
 		if(filename.substring(filename.length() - 4).equals("docx"))
 		{
-			text = ParseDocxService.parseDocx(fullFilename);
+			text = parseDocxService.parseDocx(fullFilename);
 		}
 		else if(filename.substring(filename.length() - 3).equals("txt"))
 		{
 			text = new String(Files.readAllBytes(Paths.get(fullFilename)));
 		}
-		text = CombineService.combine(text, language, kana, complexityLevel);
+		text = combineService.combine(text, language, kana, complexityLevel);
 		model.addAttribute("text",  text);
 		model.addAttribute("filename", filename);
 

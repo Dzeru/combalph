@@ -22,7 +22,7 @@ Returns String, which will be formatted by CombineService in TextController
 @Service
 public class ParseDocxService
 {
-	public static String parseDocx(String fullFilename)
+	public String parseDocx(String fullFilename)
 	{
 		StringBuffer sb = new StringBuffer();
 		try

@@ -32,7 +32,6 @@ public class KeyController
 
 		if(!keys.exists())
 		{
-			System.out.println("ho");
 			created = keys.createNewFile();
 		}
 
@@ -52,7 +51,6 @@ public class KeyController
 			osw.write(key + " ");
 			osw.close();
 
-			System.out.println(key);
 			model.addAttribute("key", key);
 		}
 
@@ -91,5 +89,17 @@ public class KeyController
 		model.addAttribute("foundTexts", files);
 
 		return "index";
+	}
+
+	@GetMapping("/faq")
+	public String faq()
+	{
+		return "faq";
+	}
+
+	@GetMapping("/faq#whatIsKey")
+	public String faqKey()
+	{
+		return "faq#whatIsKey";
 	}
 }
