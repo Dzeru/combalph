@@ -26,6 +26,7 @@ public class TextController
 	@Autowired
 	private ParseDocxService parseDocxService;
 
+
 	@Value("${upload.path}")
 	private String uploadPath;
 
@@ -43,11 +44,29 @@ public class TextController
 						@RequestParam String language,
 						@RequestParam String kana,
 	                    @RequestParam(value = "file", required = false) MultipartFile file,
-						@RequestParam(value = "textar", required = false) String textar,
 						Model model) throws IOException
 	{
-		if(key == null || key.isEmpty() || key.length() != 5)
+		if(key == null || key.isEmpty())
+		{
 			key = noKey;
+		}
+
+		String keyDir = uploadPath + "/keys.txt";
+		File keys = new File(keyDir);
+		if(keys.exists())
+		{
+			String keyString = new String(Files.readAllBytes(Paths.get(keyDir)));
+			if(!key.equals(noKey) && !keyString.contains(key))
+			{
+				model.addAttribute("error", "error.noSuchKey");
+				return "index";
+			}
+		}
+		else if(!key.equals(noKey))
+		{
+			model.addAttribute("error", "error.noSuchKey");
+			return "index";
+		}
 
 		if(file != null)
 		{
@@ -75,6 +94,11 @@ public class TextController
 			{
 				text = new String(Files.readAllBytes(Paths.get(fullFilename)));
 			}
+			else
+			{
+				model.addAttribute("error", "error.wrongFileExtension");
+			}
+
 			text = combineService.combine(text, language, kana, complexityLevel);
 			model.addAttribute("text",  text);
 
@@ -86,11 +110,7 @@ public class TextController
 				textFile.delete();
 			}
 		}
-		else
-		{
-			textar = combineService.combine(textar, language, kana, complexityLevel);
-			model.addAttribute("text",  textar);
-		}
+
 		return "index";
 	}
 
@@ -102,6 +122,9 @@ public class TextController
 		return "filltextarea";
 	}
 
+	/*
+	There no need in checking file extension because files with wrong one can not be saving in index()
+	 */
 	@PostMapping("/fill")
 	public String fill(@RequestParam String filename,
 						@RequestParam String complexityLevel,
