@@ -5,11 +5,11 @@
 
 	<groupId>com.dzeru.combalph</groupId>
 	<artifactId>combalph</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>combalph</name>
-	<description>Combalph</description>
+	<description>Combalph - minimalistic service for learning Japanese syllabic alphabets: katakana and hiragana</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -77,8 +77,20 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>com.heroku.sdk</groupId>
+				<artifactId>heroku-maven-plugin</artifactId>
+				<version>2.0.3</version>
+				<configuration>
+					<appName>combalph</appName>
+					<jdkVersion>1.8</jdkVersion>
+					<includeTarget>false</includeTarget>
+					<includes>
+						<include>target/combalph-1.0.0.jar</include>
+					</includes>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
-
 
 </project>

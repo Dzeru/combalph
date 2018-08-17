@@ -1,10 +1,8 @@
 # Combalph
 
-Combalph - minimalistic service for learning Japanese syllabic alphabets: katakana and hiragana.
+[Combalph](http://combalph.herokuapp.com "Combalph") - free minimalistic service for learning Japanese syllabic alphabets: katakana and hiragana.
 
-It gets text and changes some syllables to hieroglyphs. Combined text helps you to learn kana's from context.
-
-It is free. If you get your unique key, you can store files in the service.
+You upload file or type text. Service gets it and changes some syllables to hieroglyphs. Combined text helps you to learn kana's from the context.
 
 *Good luck in learning!*
 
@@ -12,6 +10,12 @@ It is free. If you get your unique key, you can store files in the service.
 
 ### v. 1.0
 
-* Recognizes Russian and English texts;
+* Recognizes Cyrillic and Roman alphabets;
 * Combines with Japanese syllabic alphabets: katakana and hiragana;
-* Parse docx and txt.
+* Parse txt.
+
+### Possible future features
+
+* File storage
+* Work with docx
+* More languages

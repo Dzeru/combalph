@@ -4,8 +4,8 @@ import com.dzeru.combalph.objects.ComplexityLevel;
 
 import org.springframework.stereotype.Service;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 /**
@@ -25,29 +25,26 @@ import java.util.Properties;
 */
 
 /*
-Service for combining two alphabets: en or ru to hiragana or katakana.
+Service for combining two alphabets: Roman or Cyrillic to hiragana or katakana.
 Returns text with kana.
 */
 
 @Service
 public class CombineService
 {
-	//Directory, where matching files are situated
-	private String kanaPath = Thread.currentThread().getContextClassLoader().getResource("kana").getPath();
-
 	public String combine(String text, String language, String kana, String complexityLevel) throws IOException
 	{
+		InputStream kanaPath = Thread.currentThread().getContextClassLoader().getResourceAsStream("kana/" + kana + ".properties");
+
 		/**
-		Enum with int param. @see com.dzeru.combalph.objects.ComplexityLevel class for more info.
+		@see com.dzeru.combalph.objects.ComplexityLevel class for more info.
 		 */
-		ComplexityLevel complexitylvl = ComplexityLevel.valueOf(complexityLevel);
-		int complvl = complexitylvl.getComplvl();
+		int complvl = ComplexityLevel.valueOf(complexityLevel).getComplvl();
 
 		StringBuffer sb = new StringBuffer();
 
-		String path = kanaPath + "/" + kana + ".properties";
 		Properties kanaProps = new Properties();
-		kanaProps.load(new FileInputStream(path));
+		kanaProps.load(kanaPath);
 
 		int i = 0;
 
@@ -56,12 +53,14 @@ public class CombineService
 			if (text.charAt(i) == ' ')
 			{
 				sb.append(' ');
-				i++;
+				if(i + 1 < text.length())
+					i++;
 			}
 			if (text.charAt(i) == '\n')
 			{
 				sb.append('\n');
-				i++;
+				if(i + 1 < text.length())
+					i++;
 			}
 
 			String c0 = Character.toString(text.charAt(i));
@@ -73,8 +72,9 @@ public class CombineService
 			}
 
 			/**
-			Are used for ru-en translation, if @param language == "ru"
-			If @param language == "en", e0 and e1 equal c0 and c1
+			Are used for ru-en translation, if
+			 @param language == "ru" if
+			 @param language == "en", e0 and e1 equal c0 and c1
 			Are used in getProperty()
 			 */
 			String e0 = c0;
@@ -130,7 +130,7 @@ public class CombineService
 	}
 
 	/*
-	Casts rus symbols to eng
+	Casts Cyrillic symbols to Roman
 	 */
 	private static String translate(String s)
 	{
@@ -189,7 +189,7 @@ public class CombineService
 			case "С": s = "S"; return s;
 			case "З": s = "Z"; return s;
 			case "В": s = "W"; return s;
+			default: return s;
 		}
-		return "error";
 	}
 }

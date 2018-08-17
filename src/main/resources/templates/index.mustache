@@ -5,20 +5,13 @@
 	<title>Combalph</title>
 </head>
 <body>
-<header>
+<header align="center">
 {{> logo}} {{> lang}}
 </header>
-<aside class="leftColumn">
-	{{> getkey}}
-	{{> finding}}
-</aside>
-<section class="text">
+<section class="text" align="center">
 	<form action="/upload" method="post" enctype="multipart/form-data">
-        <div class="simplediv" align="center">
-            <input type="text" name="key" rows=30 placeholder="{{#i18n}}placeholder.keyForSave{{/i18n}}">
-        </div>
 		{{> params}}
-		<div class="btnUpload simplediv" align="center">
+		<div class="btnUpload simplediv" align="center" style="padding-left: 30%; padding-right: 30%;">
 			<button type="button">{{#i18n}}button.upload{{/i18n}}</button>
 			<input type="file" name="file">
 		</div>
@@ -28,8 +21,12 @@
 		<div class="simplediv" align="center">
 			<span class="no">{{#error}}{{#i18n}}{{error}}{{/i18n}}{{/error}}</span>
 		</div>
+		<div class="simplediv" align="center" style="line-height:150%">
+			<span>{{#i18n}}placeholder.type{{/i18n}}</span><br>
+			<span>{{#i18n}}placeholder.warning{{/i18n}}</span>
+		</div>
         <div class="simplediv" align="center">
-			<textarea cols=60 rows=30 placeholder="{{#i18n}}placeholder.text{{/i18n}}">{{#text}}{{text}}{{/text}}</textarea>
+			<textarea name="typedText" cols=60 rows=30 placeholder="{{#i18n}}placeholder.text{{/i18n}}">{{#text}}{{text}}{{/text}}</textarea>
         </div>
 	</form>
 </section>
