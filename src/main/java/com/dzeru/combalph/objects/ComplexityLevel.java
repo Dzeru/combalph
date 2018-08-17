@@ -1,7 +1,4 @@
-package com.dzeru.combalph;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+package com.dzeru.combalph.objects;
 
 /**
    Copyright 2018, Dzeru, Combalph
@@ -19,10 +16,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
    limitations under the License.
 */
 
-@SpringBootApplication
-public class CombalphApplication {
+public enum ComplexityLevel
+{
+	EXTREMELY_EASY(20), EASY(15), NORMAL(10), HARD(5), EXTREMELY_HARD(1);
 
-	public static void main(String[] args) {
-		SpringApplication.run(CombalphApplication.class, args);
+	private int complvl;
+
+	ComplexityLevel(int complvl)
+	{
+		this.complvl = complvl;
+	}
+
+	public int getComplvl()
+	{
+		return complvl;
 	}
 }

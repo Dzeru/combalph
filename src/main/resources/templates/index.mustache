@@ -1,49 +1,34 @@
 <!DOCTYPE html>
 <html xmlns:=http://www.w3.org/1999/xhtml>
 <head>
-	<meta charset=utf-8"/>
+	{{> meta}}
 	<title>Combalph</title>
 </head>
 <body>
-
-<div>
-	<a href="/getkey">Get key</a>
-	{{#key}}
-		Your new key: {{key}}
-		Remember it! Key helps you to save and find texts.
-	{{/key}}
-</div>
-
-<div>
+<header align="center">
+{{> logo}} {{> lang}}
+</header>
+<section class="text" align="center">
 	<form action="/upload" method="post" enctype="multipart/form-data">
-        <div>
-            <input type="text" name="key">
-        </div>
-        <div align="center">
-			<input type="radio" name="language" value="en" checked>EN
-			<input type="radio" name="language" value="ru">RU
-        </div>
-        <div align="center">
-			<input type="radio" name="kana" value="katakana" checked>Katakana
-			<input type="radio" name="kana" value="hiragana">Hiragana
-        </div>
-        <div align="center">
-			<input type="radio" name="complexityLevel" value="EXTREMELY_EASY">Extremely Easy
-			<input type="radio" name="complexityLevel" value="EASY">Easy
-			<input type="radio" name="complexityLevel" value="NORMAL" checked>Normal
-			<input type="radio" name="complexityLevel" value="HARD">Hard
-			<input type="radio" name="complexityLevel" value="EXTREMELY_HARD">Extremely Hard
-        </div>
-        <div align="center">
-			<textarea readonly cols=60 rows=30 name="text">{{#text}}{{text}}{{/text}}</textarea>
-        </div>
-        <div align="center">
+		{{> params}}
+		<div class="btnUpload simplediv" align="center" style="padding-left: 30%; padding-right: 30%;">
+			<button type="button">{{#i18n}}button.upload{{/i18n}}</button>
 			<input type="file" name="file">
-        </div>
-        <div align="center">
-			<input type="submit" value="Get combined text">
+		</div>
+		<div class="simplediv" align="center">
+			<input class="btn" type="submit" value="{{#i18n}}button.combine{{/i18n}}">
+		</div>
+		<div class="simplediv" align="center">
+			<span class="no">{{#error}}{{#i18n}}{{error}}{{/i18n}}{{/error}}</span>
+		</div>
+		<div class="simplediv" align="center" style="line-height:150%">
+			<span>{{#i18n}}placeholder.type{{/i18n}}</span><br>
+			<span>{{#i18n}}placeholder.warning{{/i18n}}</span>
+		</div>
+        <div class="simplediv" align="center">
+			<textarea name="typedText" cols=60 rows=30 placeholder="{{#i18n}}placeholder.text{{/i18n}}">{{#text}}{{text}}{{/text}}</textarea>
         </div>
 	</form>
-</div>
+</section>
 </body>
 </html>
